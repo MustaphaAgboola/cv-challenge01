@@ -13,6 +13,17 @@ services:
       dockerfile: Dockerfile
     container_name: fastapi-backend
 
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-data:/var/lib/grafana
+
   nginx:
     image: nginx:stable-alpine
     container_name: nginx-proxy
@@ -23,3 +34,7 @@ services:
     depends_on:
       - frontend
       - backend
+      - grafana
+
+volumes:
+  grafana-data:
